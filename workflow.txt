@@ -1,5 +1,5 @@
 - add simple simulations
-- remove sympy from the algorithm itself
+- remove sympy from the algorithm
 - fix pendulum w/o small angle approximation
 - add support for more dimensions (without variables depending on each other)
 - add support for variables dependong on each other in more domensions

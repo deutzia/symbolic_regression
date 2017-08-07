@@ -5,11 +5,13 @@ def get_deriviatives(data, timestep):
 	result = []
 	deriviaties = []
 	length = len(data[0])
+
 	for variable in range(len(data)):
 		deriviaties.append([None])
 		for index in range(1, length):
 			deriviaties[variable].append(
 				(data[variable][index] - data[variable][index-1]) / timestep)
+
 	for sym1 in range(len(data)):
 		for sym2 in range(sym1+1, len(data)):
 			for index in range(length):

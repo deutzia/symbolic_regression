@@ -10,26 +10,25 @@ def get_nodes(expr):
 			nodes.append(e)
 	return nodes
 
-def do_crossover(expr_1, expr_2, node_1, node_2):
-	index_child_1 = random.randint(0, len(node_1.args)-1)
-	index_child_2 = random.randint(0, len(node_2.args)-1)
+def do_crossover(expr1, expr2, node1, node2):
+	index_child1 = random.randint(0, len(node1.args)-1)
+	index_child2 = random.randint(0, len(node2.args)-1)
 
-	child_1 = node_1.args[index_child_1]
-	child_2 = node_2.args[index_child_2]
+	child1 = node1.args[index_child1]
+	child2 = node2.args[index_child2]
 
-	node_1_list = list(node_1.args)
-	node_2_list = list(node_2.args)
-	node_1_list[index_child_1] = child_2
-	node_2_list[index_child_2] = child_1
+	node1_list = list(node1.args)
+	node2_list = list(node2.args)
+	node1_list[index_child1] = child2
+	node2_list[index_child2] = child1
 
-	node_1_cross = node_1.func(*node_1_list)
-	node_2_cross = node_2.func(*node_2_list)
+	node1_cross = node1.func(*node1_list)
+	node2_cross = node2.func(*node2_list)
 
-	expr_1 = expr_1.subs(node_1, node_1_cross)
-	expr_2 = expr_2.subs(node_2, node_2_cross)
+	expr1 = expr1.subs(node1, node1_cross)
+	expr2 = expr2.subs(node2, node2_cross)
 
-
-	return expr_1, expr_2
+	return expr1, expr2
 
 def crossover(expressions, number_of_expressions, dimensions):
 	number_of_changes = number_of_expressions - len(expressions)
@@ -43,15 +42,13 @@ def crossover(expressions, number_of_expressions, dimensions):
 		expr1 = expressions[index1]
 		expr2 = expressions[index2]
 
-		nodes_1 = get_nodes(expr1)
-		nodes_2 = get_nodes(expr2)
+		nodes1 = get_nodes(expr1)
+		nodes2 = get_nodes(expr2)
 
-		if nodes_1 and nodes_2:
-			node_1 = random.choice(nodes_1)
-			node_2 = random.choice(nodes_2)
-
-			expr1, expr2 = do_crossover(expressions[index1], expressions[index2], node_1, node_2)
-
+		if nodes1 and nodes2:
+			node1 = random.choice(nodes1)
+			node2 = random.choice(nodes2)
+			expr1, expr2 = do_crossover(expressions[index1], expressions[index2], node1, node2)
 			expressions.append(expr1)
 			expressions.append(expr2)
 		else:

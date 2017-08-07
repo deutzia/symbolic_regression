@@ -1,40 +1,5 @@
-import sympy as sp
 import numpy as np
-
-# def get_deriviatives(expressions, data, timestep, symbols_used):
-# 	sol = []
-# 	for exp in expressions:
-# 		deriviativex = sp.diff(exp, symbols_used[0], 1)
-# 		derxoflamb = np.vectorize(sp.lambdify(tuple(symbols_used),deriviativex
-# 			,"numpy"))
-# 		deriviativeax = sp.diff(exp, symbols_used[1], 1)
-# 		deraxoflamb = np.vectorize(sp.lambdify(tuple(symbols_used),
-# 			deriviativeax, "numpy"))
-# 		# deriviativey = sp.diff(exp, symbols_used[3], 1)
-# 		# deryoflamb = np.vectorize(sp.lambdify(tuple(symbols_used),deriviativey
-# 		# 	,"numpy"))
-# 		# deriviativevy = sp.diff(exp, symbols_used[5], 1)
-# 		# dervyoflamb = np.vectorize(sp.lambdify(tuple(symbols_used),
-# 		# 	deriviativevy, "numpy"))
-# 		data = [data[0], data[1], data[2]]
-# 		with np.errstate(divide='ignore', invalid='ignore'):
-# 			arrx = derxoflamb(*data)
-# 			arrxa = deraxoflamb(*data)
-# 			# arry = deryoflamb(*data)
-# 			# arryv = dervyoflamb(*data)
-# 		divx = []
-# 		divy = []
-# 		for i in range(0, len(arrx)):
-# 			if arrxa[i] != 0:
-# 				divx.append(np.divide(arrx[i], arrxa[i]))
-# 			else:
-# 				divx.append(None)
-# 			# if(arryv[i] != 0):
-# 			# 	divy.append(np.divide(arry[i], arryv[i]))
-# 			# else:
-# 			# 	divy.append(1024.0**100)
-# 		sol.append([divx, divy])
-# 	return(sol)
+import sympy as sp
 
 def get_symbols_from_expr(expr, symbols_used):
 	result = []

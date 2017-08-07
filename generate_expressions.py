@@ -10,7 +10,8 @@ def choose_expression(expressions, operations_unary, symbols_used):
 		return random.choice(operations_unary)(expr1)
 	return expr1
 	
-def create_expression(expressions, operations_binary, operations_unary, symbols_used):
+def create_expression(expressions, operations_binary, operations_unary,
+	symbols_used):
 	while (len(expressions) > 1):
 		expr1 = choose_expression(expressions, operations_unary, symbols_used)
 		expr2 = choose_expression(expressions, operations_unary, symbols_used)
@@ -36,8 +37,10 @@ def init(dimensions):
 	return symbols, operations_binary, operations_unary, symbols_used
 
 def get_a_single_expression(dimensions):
-	symbols, operations_binary, operations_unary, symbols_used = init(1)
-	expr = create_expression(symbols, operations_binary, operations_unary, symbols_used)
+	symbols, operations_binary, operations_unary, symbols_used = init(
+		dimensions)
+	expr = create_expression(symbols, operations_binary,
+		operations_unary, symbols_used)
 	return expr
 
 def generate_expressions(num_of_expressions, dimensions):
