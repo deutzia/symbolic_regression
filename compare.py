@@ -33,15 +33,23 @@ def mean_log_error(expressions, num_devs, sym_devs, symbols_used):
 			val2 = sym_devs[index][i]
 			if val1 != None and val2 != None and val1 != 0 and val2 != 0:
 				cost += math.log10(1+abs(val1 - val2))
+			elif val1 == None or val2 == None:
+				print("CIAP")
+				cost += 10
 
+		print(cost)
 		size = get_size(expressions[index])
 		trigo, variables = get_stuff(expressions[index], symbols_used)
 		size -= len(trigo)/2
-		cost += size*size/30
-		cost += (len(symbols_used) - len(variables)) * 500
-		exps_with_values[index][1] = -cost
+		if size > 15:
+			cost += size*size/30
+		print(cost)
+		cost += (len(symbols_used) - len(variables)) * 100
+		print(cost)
+		exps_with_values[index][1] = cost
 
 	exps_with_values.sort(key = lambda x: x[1])
+	print(exps_with_values[0][0], exps_with_values[0][1])
 
 	for index in range(len(expressions)):
 		expressions[index] = exps_with_values[index][0]

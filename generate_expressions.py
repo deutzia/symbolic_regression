@@ -6,8 +6,9 @@ import copy
 def choose_expression(expressions, operations_unary, symbols_used):
 	index = random.randint(0, len(expressions)-1)
 	expr1 = expressions.pop(index)
-	if random.random() > 0.5 and expr1 in symbols_used:
-		return random.choice(operations_unary)(expr1)
+	# trigonometry may cause sympy to break (when nested)
+	# if random.random() > 0.5 and expr1 in symbols_used:
+	# 	return random.choice(operations_unary)(expr1)
 	return expr1
 	
 def create_expression(expressions, operations_binary, operations_unary,
@@ -16,6 +17,8 @@ def create_expression(expressions, operations_binary, operations_unary,
 		expr1 = choose_expression(expressions, operations_unary, symbols_used)
 		expr2 = choose_expression(expressions, operations_unary, symbols_used)
 		operation = random.choice(operations_binary)
+		# actually, there's no division now (sympy does division as Pow(x, -1))
+		# it may be added in the future after sympy is removed
 		if operation == sp.Pow:
 			expressions.append(sp.Mul(expr1, sp.Pow(expr2, -1),))
 		else:
@@ -33,7 +36,7 @@ def init(dimensions):
 	operations_unary =  [sp.sin, sp.cos]
 	added_constants = random.randint(0, len(symbols)+1)
 	for i in range(added_constants):
-		symbols.append(random.uniform(-100, 100))
+		symbols.append(random.uniform(-10, 10))
 	return symbols, operations_binary, operations_unary, symbols_used
 
 def get_a_single_expression(dimensions):

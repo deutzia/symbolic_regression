@@ -46,20 +46,20 @@ def main(file):
 	num_devs = numerical_derivatives.get_deriviatives(data, timestep)
 
 	for i in range(number_of_iterations):
-		print("{} iteratrion {}: ".format(time.clock(), i))
+		print("{:08.3f} iteratrion {}".format(time.clock(), i))
 
 		sym_devs = symbolic_derivatives.get_deriviatives(expressions, data,
 			symbols_used)
 		compare.compare(expressions, num_devs, sym_devs, symbols_used)
-		expressions = expressions[len(expressions)//2:]
+		expressions = expressions[:len(expressions)//2]
 
 		crossover.crossover(expressions, number_of_expressions, dimensions)
 		mutate.mutate(expressions,operations_binary,operations_unary,
 			symbols_used)
 
-	expressions = expressions[len(expressions)//10:]
+	expressions = expressions[:5]
 	for exp in expressions:
-		print(exp)
+		print(str(exp) + " = 0")
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:

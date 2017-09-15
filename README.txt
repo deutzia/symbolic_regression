@@ -11,3 +11,5 @@ The lgorithm has six phases:
 6) randomly changing the equations (crossoves, mutations)
 steps 4-6 are repeated until desires accuracy is reached
 It is possible that in the future scientists will be able to use this algorithm to get new equations from experimental data, even the more complicated ones.
+
+One issue with the code is I don't know how to fix it that it tends to overcomplicate. What I mean, is that it can write simble expressions like a+b=0 in a form c*a*(a+b)**3 or something like this.
