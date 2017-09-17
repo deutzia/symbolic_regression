@@ -20,14 +20,11 @@ def get_deriviatives(expressions, data, symbols_used):
 		for variable in range(len(data)):
 			if symbols_used[variable] in what_to_derive:
 				deri_expression = sp.diff(exp, symbols_used[variable], 1)
-				print(symbols_used[variable], deri_expression)
 				deri_func = np.vectorize(sp.lambdify(tuple(symbols_used),
 					deri_expression, "numpy"))
 				deriviatives.append(deri_func(*data))
 			else:
 				deriviatives.append(np.zeros(length))
-
-		print(deriviatives)
 
 		for sym1 in range(len(data)):
 			for sym2 in range(sym1+1, len(data)):
@@ -39,9 +36,8 @@ def get_deriviatives(expressions, data, symbols_used):
 					elif not val1 or not val2:
 						result.append(None)
 					else:
-						result.append(val1 / val2)
+						result.append(-val1 / val2)
 
 		result_for_all_expressions.append(result)
-		print(result)
 
 	return result_for_all_expressions
