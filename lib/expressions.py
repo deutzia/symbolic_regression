@@ -8,8 +8,8 @@ class Node(metaclass=abc.ABCMeta):
 	from it. The interface should be the following, plus attribute sons, type list"""
 
 	@abc.abstractmethod
-	def deriviative(self, variable):
-		"""Return deriviative of the expression.
+	def derivative(self, variable):
+		"""Return derivative of the expression.
 
 		Argument should be a variable with respect to which to derive"""
 		pass
@@ -76,7 +76,7 @@ class Constant(Node):
 	def __eq__(self, other):
 		return isinstance(other, Constant) and self.value == other.value
 
-	def deriviative(self, variable):
+	def derivative(self, variable):
 		return Constant(0)
 
 	def get_value(self, variables = {}):
@@ -97,7 +97,7 @@ class Variable(Node):
 		self.father = None
 		self.sons = []
 
-	def deriviative(self, variable):
+	def derivative(self, variable):
 		if self.name == variable.name:
 			return Constant(1)
 		else:
@@ -128,20 +128,19 @@ class OneArgFunction(Node):
 		son.father = self
 
 	@abc.abstractmethod
-	def own_deriviative(self, variable):
+	def own_derivative(self, variable):
 		pass
 
-	def deriviative(self, variable):
-		return Multiply(self.own_deriviative(variable), self.sons[0].deriviative(variable))
+	def derivative(self, variable):
+		return Multiply(self.own_derivative(variable), self.sons[0].derivative(variable))
 
 	def get_tree_size(self):
 		return self.sons[0].get_tree_size() + 1
 
 
-
 class Sin(OneArgFunction):
 
-	def own_deriviative(self, variable):
+	def own_derivative(self, variable):
 		return Cos(self.sons[0])
 
 	def get_value(self, variables = {}):
@@ -153,7 +152,7 @@ class Sin(OneArgFunction):
 
 class Cos(OneArgFunction):
 
-	def own_deriviative(self, variable):
+	def own_derivative(self, variable):
 		return Multiply(Sin(self.sons[0]), Constant(-1))
 
 	def get_value(self, variables = {}):
@@ -184,10 +183,10 @@ class TwoArgFunction(Node):
 
 class Multiply(TwoArgFunction):
 
-	def deriviative(self, variable):
+	def derivative(self, variable):
 		return Add(
-			Multiply(self.sons[0].deriviative(variable), self.sons[1]),
-			Multiply(self.sons[0], self.sons[1].deriviative(variable)))
+			Multiply(self.sons[0].derivative(variable), self.sons[1]),
+			Multiply(self.sons[0], self.sons[1].derivative(variable)))
 
 	def get_value(self, variables = {}):
 		return self.sons[0].get_value(variables) * self.sons[1].get_value(variables)
@@ -198,8 +197,8 @@ class Multiply(TwoArgFunction):
 
 class Add(TwoArgFunction):
 
-	def deriviative(self, variable):
-		return Add(self.sons[0].deriviative(variable), self.sons[1].deriviative(variable))
+	def derivative(self, variable):
+		return Add(self.sons[0].derivative(variable), self.sons[1].derivative(variable))
 
 	def get_value(self, variables = {}):
 		return self.sons[0].get_value(variables) + self.sons[1].get_value(variables)
@@ -210,8 +209,8 @@ class Add(TwoArgFunction):
 
 class Subtract(TwoArgFunction):
 
-	def deriviative(self, variable):
-		return Subtract(self.sons[0].deriviative(variable), self.sons[1].deriviative(variable))
+	def derivative(self, variable):
+		return Subtract(self.sons[0].derivative(variable), self.sons[1].derivative(variable))
 
 	def get_value(self, variables = {}):
 		return self.sons[0].get_value(variables) - self.sons[1].get_value(variables)
@@ -222,11 +221,11 @@ class Subtract(TwoArgFunction):
 
 class Divide(TwoArgFunction):
 
-	def deriviative(self, variable):
+	def derivative(self, variable):
 		return Divide(
 			Subtract(
-				Multiply(self.sons[0].deriviative(variable), self.sons[1]),
-				Multiply(self.sons[0], self.sons[1].deriviative(variable))),
+				Multiply(self.sons[0].derivative(variable), self.sons[1]),
+				Multiply(self.sons[0], self.sons[1].derivative(variable))),
 			Multiply(self.sons[1], self.sons[1]))
 
 	def get_value(self, variables = {}):

@@ -8,9 +8,9 @@ from expressions import *
 def test_constant_init():
 	c = Constant(2)
 
-def test_constant_deriviative():
+def test_constant_derivative():
 	c = Constant(2)
-	assert c.deriviative(Variable("x")) == Constant(0)
+	assert c.derivative(Variable("x")) == Constant(0)
 
 def test_constant_get_value():
 	c = Constant(2)
@@ -36,10 +36,10 @@ def test_constant_str():
 def test_variable_init():
 	a = Variable("a")
 
-def test_variable_deriviative():
+def test_variable_derivative():
 	v = Variable("v")
-	assert v.deriviative(v) == Constant(1)
-	assert v.deriviative(Variable("x")) == Constant(0)
+	assert v.derivative(v) == Constant(1)
+	assert v.derivative(Variable("x")) == Constant(0)
 
 def test_variable_get_value():
 	v = Variable("v")
@@ -73,15 +73,15 @@ def test_sin_init():
 	x = Variable("x")
 	s = Sin(x)
 
-def test_sin_deriviative():
+def test_sin_derivative():
 	x = Variable("x")
 	s = Sin(x)
 	d = {"x": 1}
-	assert s.deriviative(x).get_value(d) == Cos(x).get_value(d)
+	assert s.derivative(x).get_value(d) == Cos(x).get_value(d)
 	d = {"x": 2}
-	assert s.deriviative(x).get_value(d) == Cos(x).get_value(d)
+	assert s.derivative(x).get_value(d) == Cos(x).get_value(d)
 	d = {"x": math.pi}
-	assert s.deriviative(x).get_value(d) == Cos(x).get_value(d)
+	assert s.derivative(x).get_value(d) == Cos(x).get_value(d)
 
 def test_sin_get_value():
 	x = Variable("x")
@@ -117,15 +117,15 @@ def test_cos_init():
 	x = Variable("x")
 	s = Cos(x)
 
-def test_cos_deriviative():
+def test_cos_derivative():
 	x = Variable("x")
 	s = Cos(x)
 	d = {"x": 1}
-	assert s.deriviative(x).get_value(d) == -Sin(x).get_value(d)
+	assert s.derivative(x).get_value(d) == -Sin(x).get_value(d)
 	d = {"x": 2}
-	assert s.deriviative(x).get_value(d) == -Sin(x).get_value(d)
+	assert s.derivative(x).get_value(d) == -Sin(x).get_value(d)
 	d = {"x": math.pi}
-	assert s.deriviative(x).get_value(d) == -Sin(x).get_value(d)
+	assert s.derivative(x).get_value(d) == -Sin(x).get_value(d)
 
 def test_cos_get_value():
 	x = Variable("x")
@@ -162,12 +162,12 @@ def test_multiply_init():
 	x = Variable("x")
 	m = Multiply(c, x)
 
-def test_multiply_deriviative():
+def test_multiply_derivative():
 	c = Constant(5)
 	x = Variable("x")
 	m = Multiply(c, x)
 	d = {"x": 1}
-	assert m.deriviative(x).get_value(d) == 5
+	assert m.derivative(x).get_value(d) == 5
 
 def test_multiply_get_value():
 	n = Constant(3)
@@ -206,12 +206,12 @@ def test_add_init():
 	x = Variable("x")
 	m = Add(c, x)
 
-def test_add_deriviative():
+def test_add_derivative():
 	c = Constant(5)
 	x = Variable("x")
 	m = Add(c, x)
 	d = {"x": 1}
-	assert m.deriviative(x).get_value(d) == 1
+	assert m.derivative(x).get_value(d) == 1
 
 def test_add_get_value():
 	n = Constant(3)
@@ -250,12 +250,12 @@ def test_subtract_init():
 	x = Variable("x")
 	m = Subtract(c, x)
 
-def test_subtract_deriviative():
+def test_subtract_derivative():
 	c = Constant(5)
 	x = Variable("x")
 	m = Subtract(c, x)
 	d = {"x": 1}
-	assert m.deriviative(x).get_value(d) == -1
+	assert m.derivative(x).get_value(d) == -1
 
 def test_subtract_get_value():
 	n = Constant(11)
@@ -294,18 +294,18 @@ def test_divide_init():
 	x = Variable("x")
 	m = Divide(c, x)
 
-def test_divide_deriviative():
+def test_divide_derivative():
 	c = Constant(1)
 	x = Variable("x")
 	m = Divide(c, x)
 	d = {"x": 1}
-	assert m.deriviative(x).get_value(d) == -1
+	assert m.derivative(x).get_value(d) == -1
 	d = {"x": 2}
-	assert m.deriviative(x).get_value(d) == -0.25
+	assert m.derivative(x).get_value(d) == -0.25
 	d = {"x": -1}
-	assert m.deriviative(x).get_value(d) == -1
+	assert m.derivative(x).get_value(d) == -1
 	d = {"x": -2}
-	assert m.deriviative(x).get_value(d) == -0.25
+	assert m.derivative(x).get_value(d) == -0.25
 
 def test_divide_get_value():
 	n = Constant(10)
@@ -359,11 +359,11 @@ def test_function_composition_1():
 
 	x = Variable("x")
 	expression = Sin(Sin(x))
-	deriviative = expression.deriviative(x)
+	derivative = expression.derivative(x)
 	values = [1, 2, math.pi, -1, 2*math.pi, -math.pi]
 	for value in values:
 		variables = {"x": value}
-		assert (deriviative.get_value(variables)) == math.cos(value)*math.cos(math.sin(value))
+		assert (derivative.get_value(variables)) == math.cos(value)*math.cos(math.sin(value))
 
 def test_function_composition_2():
 
@@ -373,13 +373,13 @@ def test_function_composition_2():
 	x = Variable("x")
 	y = Variable("y")
 	expression = Add(Multiply(Sin(x), Cos(y)), Multiply(Multiply(x, y), Constant(5)))
-	deriviative = expression.deriviative(x)
+	derivative = expression.derivative(x)
 	values = [[1, 1], [1, 2], [2, 1], [-1, 1], [1, -1], [math.pi, 1], [1, math.pi]]
 	for value in values:
 		x_val = value[0]
 		y_val = value[1]
 		variables = {"x": x_val, "y": y_val}
-		assert (deriviative.get_value(variables)) == get_correct_value(x_val, y_val)
+		assert (derivative.get_value(variables)) == get_correct_value(x_val, y_val)
 
 
 def test_get_nodes():

@@ -11,36 +11,36 @@ def get_symbols_from_expr(expr, symbols_used):
 			result.append(node)
 	return result
 
-def get_deriviatives(expressions, data, symbols_used):
+def get_derivatives(expressions, data, symbols_used):
 	result_for_all_expressions = []
 	length = len(data[0])
 
 	for exp in expressions:
 		result = []
-		deriviatives = []
+		derivatives = []
 		what_to_derive = get_symbols_from_expr(exp, symbols_used)
 
 		for index in range(len(data)):
 			if symbols_used[index] in what_to_derive:
-				deriviatives.append([])
-				deriviative_function = exp.deriviative(symbols_used[index])
+				derivatives.append([])
+				derivative_function = exp.derivative(symbols_used[index])
 				for data_point in range(length):
 					values = {}
 					for i, variable in enumerate(symbols_used):
 						values[symbols_used[i].name] = data[i][data_point]
 					try:
-						deriviatives[-1].append(deriviative_function.get_value(values))
+						derivatives[-1].append(derivative_function.get_value(values))
 					except ValueError: # this means division by zero
-						deriviatives[-1].append(None)
+						derivatives[-1].append(None)
 			else:
-				deriviatives.append([0 for _ in range(length)])
+				derivatives.append([0 for _ in range(length)])
 
 
 		for sym1 in range(len(data)):
 			for sym2 in range(sym1+1, len(data)):
 				for index in range(length):
-					val1 = deriviatives[sym1][index]
-					val2 = deriviatives[sym2][index]
+					val1 = derivatives[sym1][index]
+					val2 = derivatives[sym2][index]
 					if val1 == 0 or val2 == 0:
 						result.append(0)
 					elif not val1 or not val2:

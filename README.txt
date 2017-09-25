@@ -4,10 +4,10 @@ For example, the oscilator moves can be described with sin(t). We want to be abl
 
 The lgorithm has six phases:
 1) getting the data
-2) calculating partial deriviatives for the data
+2) calculating partial derivatives for the data
 3) creating candidate functions (randomly)
-4) deriving the functions and comparing with numerical deriviatives
-5) selecting the best functions based on how well the deriviatives match, discard the rest
+4) deriving the functions and comparing with numerical derivatives
+5) selecting the best functions based on how well the derivatives match, discard the rest
 6) randomly changing the equations (crossoves, mutations)
 steps 4-6 are repeated until desires accuracy is reached
 It is possible that in the future scientists will be able to use this algorithm to get new equations from experimental data, even the more complicated ones.
