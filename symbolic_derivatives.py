@@ -8,7 +8,7 @@ def get_symbols_from_expr(expr, symbols_used):
 	result = []
 	for node in expr.get_nodes():
 		if node in symbols_used:
-			result.append(arg)
+			result.append(node)
 	return result
 
 def get_deriviatives(expressions, data, symbols_used):
@@ -20,21 +20,18 @@ def get_deriviatives(expressions, data, symbols_used):
 		deriviatives = []
 		what_to_derive = get_symbols_from_expr(exp, symbols_used)
 
-		# for variable in range(len(data)):
-		# 	if symbols_used[variable] in what_to_derive:
-		# 		deri_expression = exp.deriviative(symbols_used[variable].name)
-		# 		deriviatives.append(deri_func(*data))
-		# 	else:
-		# 		deriviatives.append(np.zeros(length))
-
 		for index in range(len(data)):
 			if symbols_used[index] in what_to_derive:
+				deriviatives.append([])
 				deriviative_function = exp.deriviative(symbols_used[index])
-				for data_point in length:
+				for data_point in range(length):
 					values = {}
 					for i, variable in enumerate(symbols_used):
-						values[symbols_used.name] = data[i][data_point]
-					deriviatives.append(deriviative_function.get_value(values))
+						values[symbols_used[i].name] = data[i][data_point]
+					try:
+						deriviatives[-1].append(deriviative_function.get_value(values))
+					except ValueError: # this means division by zero
+						deriviatives[-1].append(None)
 			else:
 				deriviatives.append([0 for _ in range(length)])
 

@@ -10,8 +10,8 @@ def get_stuff(expr, symbols_used):
 	for arg in expr.get_nodes():
 		if isinstance(arg, (Expressions.Sin, Expressions.Cos)):
 			num_of_trigo_functions += 1
-		if arg in symbols_used:
-			variables.add(arg)
+		if isinstance(arg, Expressions.Variable):
+			variables.add(arg.name)
 
 	return num_of_trigo_functions, variables
 
@@ -34,8 +34,7 @@ def mean_log_error(expressions, num_devs, sym_devs, symbols_used):
 		size = expressions[index].get_tree_size()
 		trigo, variables = get_stuff(expressions[index], symbols_used)
 		size -= trigo/2
-		if size > 15:
-			cost += size*size/30
+		cost += size*size
 		cost += (len(symbols_used) - len(variables)) * 100
 		exps_with_values[index][1] = cost
 
