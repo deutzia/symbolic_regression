@@ -45,12 +45,12 @@ def main(file):
 	data_file.close()
 	expressions, symbols_used = generate_expressions.generate_expressions(
 		number_of_expressions, dimensions)
-	num_devs = numerical_derivatives.get_deriviatives(data, timestep)
+	num_devs = numerical_derivatives.get_derivatives(data, timestep)
 
 	for i in range(number_of_iterations):
 		print("{:08.3f} iteratrion {}".format(time.clock(), i))
 
-		sym_devs = symbolic_derivatives.get_deriviatives(expressions, data,
+		sym_devs = symbolic_derivatives.get_derivatives(expressions, data,
 			symbols_used)
 		compare.compare(expressions, num_devs, sym_devs, symbols_used)
 		expressions = expressions[:len(expressions)//2]

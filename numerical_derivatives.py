@@ -1,21 +1,21 @@
 import numpy as np
 
-def get_deriviatives(data, timestep):
+def get_derivatives(data, timestep):
 	result = []
-	deriviaties = []
+	derivatives = []
 	length = len(data[0])
 
 	for variable in range(len(data)):
-		deriviaties.append([None])
+		derivatives.append([None])
 		for index in range(1, length):
-			deriviaties[variable].append(
+			derivatives[variable].append(
 				(data[variable][index] - data[variable][index-1]) / timestep)
 
 	for sym1 in range(len(data)):
 		for sym2 in range(sym1+1, len(data)):
 			for index in range(length):
-				val1 = deriviaties[sym1][index]
-				val2 = deriviaties[sym2][index]
+				val1 = derivatives[sym1][index]
+				val2 = derivatives[sym2][index]
 				if val1 == 0 or val2 == 0:
 					result.append(0)
 				elif val1 == None or val2 == None:
