@@ -1,5 +1,6 @@
 import math
 import pytest
+import types
 
 from expressions import *
 
@@ -21,7 +22,15 @@ def test_constant_get_tree_size():
 
 def test_constant_get_sons():
 	c = Constant(2)
-	assert c.get_sons() == []
+	assert c.sons == []
+
+def test_constant_father():
+	c = Constant(2)
+	assert c.father == None
+
+def test_constant_str():
+	c = Constant(2)
+	assert str(c) == "2"
 
 
 def test_variable_init():
@@ -49,7 +58,15 @@ def test_variable_get_tree_size():
 
 def test_variable_get_sons():
 	v = Variable("v")
-	assert v.get_sons() == []
+	assert v.sons == []
+
+def test_variable_father():
+	c = Variable("x")
+	assert c.father == None
+
+def test_variable_str():
+	c = Variable("x")
+	assert str(c) == "x"
 
 
 def test_sin_init():
@@ -82,7 +99,18 @@ def test_sin_get_tree_size():
 def test_sin_get_sons():
 	x = Variable("x")
 	s = Sin(x)
-	assert s.get_sons() == [x]
+	assert s.sons == [x]
+
+def test_sin_father():
+	x = Variable("x")
+	s = Sin(x)
+	assert s.father == None
+	assert x.father == s
+
+def test_sin_str():
+	x = Variable("x")
+	s = Sin(x)
+	assert str(s) == "sin(x)"
 
 
 def test_cos_init():
@@ -115,7 +143,18 @@ def test_cos_get_tree_size():
 def test_cos_get_sons():
 	x = Variable("x")
 	s = Cos(x)
-	assert s.get_sons() == [x]
+	assert s.sons == [x]
+
+def test_cos_father():
+	x = Variable("x")
+	s = Cos(x)
+	assert s.father == None
+	assert x.father == s
+
+def test_cos_str():
+	x = Variable("x")
+	s = Cos(x)
+	assert str(s) == "cos(x)"
 
 
 def test_multiply_init():
@@ -145,7 +184,21 @@ def test_multiply_get_sons():
 	c = Constant(5)
 	x = Variable("x")
 	m = Multiply(c, x)
-	assert m.get_sons() == [c, x] or m.get_sons() == [x, c]
+	assert m.sons == [c, x] or m.sons == [x, c]
+
+def test_multiply_father():
+	c = Constant(5)
+	x = Variable("x")
+	m = Multiply(c, x)
+	assert m.father == None
+	assert x.father == m
+	assert c.father == m
+
+def test_multiply_str():
+	c = Constant(5)
+	x = Variable("x")
+	m = Multiply(c, x)
+	assert str(m) == "(5)*(x)"
 
 
 def test_add_init():
@@ -175,7 +228,21 @@ def test_add_get_sons():
 	c = Constant(5)
 	x = Variable("x")
 	m = Add(c, x)
-	assert m.get_sons() == [c, x] or m.get_sons() == [x, c]
+	assert m.sons == [c, x] or m.sons == [x, c]
+
+def test_add_father():
+	c = Constant(5)
+	x = Variable("x")
+	m = Add(c, x)
+	assert m.father == None
+	assert x.father == m
+	assert c.father == m
+
+def test_add_str():
+	c = Constant(5)
+	x = Variable("x")
+	m = Add(c, x)
+	assert str(m) == "(5)+(x)"
 
 
 def test_subtract_init():
@@ -205,7 +272,21 @@ def test_subtract_get_sons():
 	c = Constant(5)
 	x = Variable("x")
 	m = Subtract(c, x)
-	assert m.get_sons() == [c, x]
+	assert m.sons == [c, x]
+
+def test_subtract_father():
+	c = Constant(5)
+	x = Variable("x")
+	m = Subtract(c, x)
+	assert m.father == None
+	assert x.father == m
+	assert c.father == m
+
+def test_subtract_str():
+	c = Constant(5)
+	x = Variable("x")
+	m = Subtract(c, x)
+	assert str(m) == "(5)-(x)"
 
 
 def test_divide_init():
@@ -247,7 +328,21 @@ def test_divide_get_sons():
 	c = Constant(5)
 	x = Variable("x")
 	m = Divide(c, x)
-	assert m.get_sons() == [c, x]
+	assert m.sons == [c, x]
+
+def test_divide_father():
+	c = Constant(5)
+	x = Variable("x")
+	m = Divide(c, x)
+	assert m.father == None
+	assert x.father == m
+	assert c.father == m
+
+def test_divide_str():
+	c = Constant(5)
+	x = Variable("x")
+	m = Divide(c, x)
+	assert str(m) == "(5)/(x)"
 
 
 def test_function_composition_1():
@@ -279,3 +374,14 @@ def test_function_composition_2():
 		variables = {"x": x_val, "y": y_val}
 		assert (deriviative.get_value(variables)) == get_correct_value(x_val, y_val)
 
+
+def test_get_nodes():
+	c = Constant(5)
+	x = Variable("x")
+	m = Multiply(c, x)
+	nodes = m.get_nodes()
+	nodes_list = [node for node in nodes]
+	assert len(nodes_list) == 3
+	assert c in nodes_list
+	assert x in nodes_list
+	assert m in nodes_list
