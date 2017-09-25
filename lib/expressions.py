@@ -1,5 +1,6 @@
 import abc
 import math
+import numbers
 
 
 class Node(metaclass=abc.ABCMeta):
@@ -38,6 +39,30 @@ class Node(metaclass=abc.ABCMeta):
 					stack.append(son)
 				yield result
 		return generate_nodes()
+
+	def __add__(self, other):
+		return Add(self, other)
+
+	def __radd__(self, other):
+		return Add(other, self)
+
+	def __sub__(self, other):
+		return Subtract(self, other)
+
+	def __rsub__(self, other):
+		return Subtract(other, self)
+
+	def __mul__(self, other):
+		return Multiply(self, other)
+
+	def __rmul__(self, other):
+		return Multiply(other, self)
+
+	def __truediv__(self, other):
+		return Divide(self, other)
+
+	def __rtruediv__(self, other):
+		return Divide(other, self)
 
 
 class Constant(Node):
@@ -96,6 +121,8 @@ class OneArgFunction(Node):
 	"""This is an abstract class for all one-argument functions"""
 
 	def __init__(self, son):
+		if isinstance(son, numbers.Number):
+			son = Constant(son)
 		self.sons = [son]
 		self.father = None
 		son.father = self
@@ -139,6 +166,10 @@ class Cos(OneArgFunction):
 class TwoArgFunction(Node):
 
 	def __init__(self, one, two):
+		if isinstance(one, numbers.Number):
+			one = Constant(one)
+		if isinstance(two, numbers.Number):
+			two = Constant(two)
 		self.sons = [one, two]
 		self.father = None
 		one.father = self

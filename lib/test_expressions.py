@@ -392,3 +392,27 @@ def test_get_nodes():
 	assert c in nodes_list
 	assert x in nodes_list
 	assert m in nodes_list
+
+def test_init_1():
+	x = Variable("x")
+	y = Variable("y")
+	z = Variable("z")
+	expr = x + y * z - x / y
+
+def test_init_2():
+	x = Variable("x")
+	y = Variable("y")
+	z = Variable("z")
+	expr = Sin(x) * Cos(y) * Sin(Cos(z))
+
+def test_init_3():
+	x = Variable("x")
+	expr = 8 * x + 7
+	expr2 = 4 / x + Cos(x)	
+	expr3 = 3 + x
+	expr4 = 5 - x
+	d = {"x": 1}
+	assert expr.get_value(d) == 15
+	assert expr2.get_value(d) == 4 + math.cos(1)
+	assert expr3.get_value(d) == 4
+	assert expr4.get_value(d) == 4
