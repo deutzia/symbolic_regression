@@ -68,6 +68,9 @@ def test_variable_str():
 	c = Variable("x")
 	assert str(c) == "x"
 
+def test_variable_eq():
+	c = Variable("x")
+	assert c == Variable("x")
 
 def test_sin_init():
 	x = Variable("x")

@@ -97,8 +97,11 @@ class Variable(Node):
 		self.father = None
 		self.sons = []
 
+	def __eq__(self, other):
+		return isinstance(other, Variable) and self.name == other.name
+
 	def derivative(self, variable):
-		if self.name == variable.name:
+		if self == variable:
 			return Constant(1)
 		else:
 			return Constant(0)
@@ -115,6 +118,9 @@ class Variable(Node):
 
 	def __str__(self):
 		return self.name
+
+	def __repr__(self):
+		return "Variable({})".format(self.name)
 
 
 class OneArgFunction(Node):

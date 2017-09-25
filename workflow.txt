@@ -1,5 +1,5 @@
 - add simple simulations
-- remove sympy from the algorithm
++ remove sympy from the algorithm
 - fix pendulum w/o small angle approximation
 - use numpy wherever possible instead of mixing numpy with lists
 - add support for more dimensions (without variables depending on each other)

@@ -27,7 +27,7 @@ def get_data(file):
 
 def main(file):
 	"""Data should consist of records separated by linux newline characters.
-	Each record should consist of data (numbers) for consecutive steps fo time.
+	Each record should consist of data (numbers) for consecutive steps of time.
 	There should be records for: position, velocity, acceleration.
 	Example data (for oscilator with equation of motion a = -x) can be found in
 	data.txt file"""
