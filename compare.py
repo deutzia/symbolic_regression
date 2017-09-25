@@ -1,24 +1,19 @@
 import math
 import numpy as np
-import sympy as sp
 
-def get_size(expr):
-	result = 0
-	for arg in sp.preorder_traversal(expr):
-		result += 1
-	return result
+import lib.expressions as Expressions
 
 def get_stuff(expr, symbols_used):
-	trigo = []
+	num_of_trigo_functions = 0
 	variables = set()
 
-	for arg in sp.preorder_traversal(expr):
-		if arg.func in [np.sin, np.cos]:
-			trigo.append(arg.func)
+	for arg in expr.get_nodes():
+		if isinstance(arg, (Expressions.Sin, Expressions.Cos)):
+			num_of_trigo_functions += 1
 		if arg in symbols_used:
 			variables.add(arg)
 
-	return trigo, variables
+	return num_of_trigo_functions, variables
 
 def mean_log_error(expressions, num_devs, sym_devs, symbols_used):
 	exps_with_values = []
@@ -36,9 +31,9 @@ def mean_log_error(expressions, num_devs, sym_devs, symbols_used):
 			elif val1 == None or val2 == None:
 				cost += 10
 
-		size = get_size(expressions[index])
+		size = expressions[index].get_tree_size()
 		trigo, variables = get_stuff(expressions[index], symbols_used)
-		size -= len(trigo)/2
+		size -= trigo/2
 		if size > 15:
 			cost += size*size/30
 		cost += (len(symbols_used) - len(variables)) * 100

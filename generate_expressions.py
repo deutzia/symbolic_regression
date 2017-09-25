@@ -3,10 +3,12 @@ import sympy as sp
 from sympy.physics.mechanics import dynamicsymbols
 import copy
 
+import lib.expressions as Expressions
+
 def choose_expression(expressions, operations_unary, symbols_used):
 	index = random.randint(0, len(expressions)-1)
 	expr1 = expressions.pop(index)
-	# trigonometry may cause sympy to break (when nested)
+	# trigonometry
 	# if random.random() > 0.5 and expr1 in symbols_used:
 	# 	return random.choice(operations_unary)(expr1)
 	return expr1
@@ -17,26 +19,26 @@ def create_expression(expressions, operations_binary, operations_unary,
 		expr1 = choose_expression(expressions, operations_unary, symbols_used)
 		expr2 = choose_expression(expressions, operations_unary, symbols_used)
 		operation = random.choice(operations_binary)
-		# actually, there's no division now (sympy does division as Pow(x, -1))
-		# it may be added in the future after sympy is removed
-		if operation == sp.Pow:
-			expressions.append(sp.Mul(expr1, sp.Pow(expr2, -1),))
-		else:
-			expressions.append(operation(expr1, expr2))
+		expressions.append(operation(expr1, expr2))
 	return expressions[0]
 
 def init(dimensions):
-	x, v_x, a_x = sp.symbols("x v_x a_x")
+	x = Expressions.Variable("x")
+	v_x = Expressions.Variable("v_x")
+	a_x = Expressions.Variable("a_x")
 	symbols = [x, v_x, a_x]
 	if dimensions > 1:
-		y, v_y, a_y = sp.symbols("y v_y a_y")
+		y = Expressions.Variable("y")
+		v_y = Expressions.Variable("v_y")
+		a_y = Expressions.Variable("a_y")
 		symbols = [x, v_x, a_x, y, v_y, a_y]
 	symbols_used = copy.deepcopy(symbols)
-	operations_binary = [sp.Add, sp.Mul]
-	operations_unary =  [sp.sin, sp.cos]
+	operations_binary = [Expressions.Add, Expressions.Multiply,
+		Expressions.Subtract, Expressions.Divide]
+	operations_unary =  [Expressions.Sin, Expressions.Cos]
 	added_constants = random.randint(0, len(symbols)+1)
 	for i in range(added_constants):
-		symbols.append(random.uniform(-10, 10))
+		symbols.append(Expressions.Constant(random.uniform(-10, 10)))
 	return symbols, operations_binary, operations_unary, symbols_used
 
 def get_a_single_expression(dimensions):

@@ -1,4 +1,3 @@
-import sympy as sp
 import numpy as np
 
 def get_deriviatives(data, timestep):

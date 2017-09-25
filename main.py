@@ -1,7 +1,7 @@
-from __future__ import print_function
-import sympy as sp
 import sys
 import time
+
+import lib.expressions as Expressions
 
 import numerical_derivatives
 import generate_expressions
@@ -9,6 +9,7 @@ import symbolic_derivatives
 import compare
 import crossover
 import mutate
+
 
 def get_data(file):
 	data = []
@@ -32,8 +33,9 @@ def main(file):
 	data.txt file"""
 	timestep = 1/20
 	number_of_expressions = 100
-	operations_binary = [sp.Add, sp.Mul]
-	operations_unary =  [sp.sin, sp.cos]
+	operations_binary = [Expressions.Add, Expressions.Multiply,
+		Expressions.Subtract, Expressions.Divide]
+	operations_unary =  [Expressions.Sin, Expressions.Cos]
 	# Only one dimension is supported now
 	dimensions = 1
 	number_of_iterations = 100
