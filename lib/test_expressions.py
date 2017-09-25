@@ -344,6 +344,13 @@ def test_divide_str():
 	m = Divide(c, x)
 	assert str(m) == "(5)/(x)"
 
+def test_divide_by_zero():
+	c = Constant(0)
+	x = Variable("x")
+	m = Divide(x, c)
+	with pytest.raises(ValueError):
+		m.get_value({"x": 5})
+
 
 def test_function_composition_1():
 

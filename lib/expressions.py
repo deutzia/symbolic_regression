@@ -199,6 +199,9 @@ class Divide(TwoArgFunction):
 			Multiply(self.sons[1], self.sons[1]))
 
 	def get_value(self, variables = {}):
+		denominator = self.sons[1].get_value(variables)
+		if denominator == 0:
+			raise ValueError("Zero-division encountered")
 		return self.sons[0].get_value(variables) / self.sons[1].get_value(variables)
 
 	def __str__(self):
